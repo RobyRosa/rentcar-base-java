@@ -9,21 +9,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import usu.widget.glass.PanelGlass;
 
 /*
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-/**
- *
- * @author Sidiq
- */
 public class Form_Pengembalian extends javax.swing.JInternalFrame {
 
     ResultSet rs;
     KoneksiDatabase con;
-    String status1;
 
     /**
      * Creates new form Form_Pengembalian
@@ -411,16 +405,13 @@ public class Form_Pengembalian extends javax.swing.JInternalFrame {
     public void cekstatus() throws SQLException {
         rs = con.querySelectAll("tb_mobil", "nopol ='" + boxnopol.getSelectedItem().toString() + "'");
         while (rs.next()) {
-            status1 = rs.getString("status");
+            rs.getString("status");
 
         }
         String update_status = "Tersedia";
         String kolom[] = {"status"};
         String isi[] = {update_status};
         con.queryUpdate("tb_mobil", kolom, isi, "nopol='" + boxnopol.getSelectedItem().toString() + "'");
-
-
-
 
     }
 
@@ -432,12 +423,16 @@ public class Form_Pengembalian extends javax.swing.JInternalFrame {
     }
 
     private void loadTabel() {
-        String namaKolom[] = {"id_transaksi", "peminjam", "nopol", "tgl_pinjaman", "tgl_kembali", "harga", "lama", "total"}; //,
-        rs = con.querySelect(namaKolom, "tb_transaksi");
-        table_transaksi1.setModel(new ResultSetTable(rs)); //,"tgl_pinjam","tgl_kembali" ,jDateChooser1.getDateFormatString(),jDateChooser2.getDateFormatString()
+        try {
+            String namaKolom[] = {"id_transaksi", "peminjam", "nopol", "tgl_pinjaman", "tgl_kembali", "harga", "lama", "total"}; //,
+            rs = con.querySelect(namaKolom, "tb_transaksi");
+            table_transaksi1.setModel(new ResultSetTable(rs)); //,"tgl_pinjam","tgl_kembali" ,jDateChooser1.getDateFormatString(),jDateChooser2.getDateFormatString()
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_Pengembalian.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
- /*   public void cetak() {
+    /*   public void cetak() {
         try {
             panelGlass2.print(PanelGlass.PrintMode.FIT_WIDTH, new MessageFormat("Data Transaksi"), null);
         } catch (PrinterException ex) {
@@ -445,8 +440,7 @@ public class Form_Pengembalian extends javax.swing.JInternalFrame {
         }
     }
 }*/
-
-public void cetak() {
+    public void cetak() {
         try {
             table_transaksi1.print(JTable.PrintMode.FIT_WIDTH, new MessageFormat("Data Transaksi"), null);
         } catch (PrinterException ex) {

@@ -8,10 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author User
- */
 public class Login_server extends javax.swing.JFrame {
 
     ResultSet rs;
@@ -158,7 +154,6 @@ public class Login_server extends javax.swing.JFrame {
                 h.setVisible(true);
                 h.user();
             }
-
 
         } else {
             JOptionPane.showMessageDialog(this, "Login Gagal, Coba Lagi!!");

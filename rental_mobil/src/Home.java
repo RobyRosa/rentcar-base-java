@@ -5,10 +5,6 @@ import Database.Star_server;
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-/**
- *
- * @author Sidiq
- */
 public class Home extends javax.swing.JFrame {
 
     /**
@@ -22,10 +18,6 @@ public class Home extends javax.swing.JFrame {
         btn_formPeminjam.setVisible(false);
         btn_formUser.setVisible(false);
         btn_transaksi.setVisible(false);
-        
-
-
-
 
     }
 
@@ -206,7 +198,6 @@ public class Home extends javax.swing.JFrame {
         btn_formPeminjam.setVisible(false);
         btn_formUser.setVisible(false);
         btn_transaksi.setVisible(false);
-        
 
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_log_OffActionPerformed
@@ -273,7 +264,6 @@ public class Home extends javax.swing.JFrame {
         btn_log_Off.setVisible(true);
         btn_login.setVisible(false);
         btn_transaksi.setVisible(true);
-        
 
     }
 
@@ -284,7 +274,7 @@ public class Home extends javax.swing.JFrame {
         btn_log_Off.setVisible(true);
         btn_login.setVisible(false);
         btn_transaksi.setVisible(true);
-        
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static usu.widget.ButtonGlass btn_closee;

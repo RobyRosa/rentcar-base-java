@@ -2,35 +2,33 @@
 import Database.KoneksiDatabase;
 import Database.ResultSetTable;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
-
-
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Sidiq
  */
 public class Form_mobil extends javax.swing.JInternalFrame {
-    
+
     ResultSet rs;
     KoneksiDatabase con;
-    
 
     /**
      * Creates new form Form_mobil
      */
     public Form_mobil() {
-        
-        con =new KoneksiDatabase(new Database.Parameter().HOST_DB,new Database.Parameter().USERNAME_DB,new Database.Parameter().PASSWORD_DB);
+
+        con = new KoneksiDatabase(new Database.Parameter().HOST_DB, new Database.Parameter().USERNAME_DB, new Database.Parameter().PASSWORD_DB);
         initComponents();
-        loadTabel(); 
-        
+        loadTabel();
+
     }
 
     /**
@@ -342,13 +340,13 @@ public class Form_mobil extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_Edit_addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Edit_addItemActionPerformed
-      try {
-            if( !txt_merkmobil_addItem.getText().isEmpty() && !txt_TypeMbll_addItem.getText().isEmpty() && !txt_Nopol_addItem.getText().isEmpty() && !txt_Harga_addItem.getText().isEmpty()){
-                String kolom[] = {"merek","tipe","tahun","nopol","harga","status"};
-                String isi[] = { txt_merkmobil_addItem.getText(),txt_TypeMbll_addItem.getText(),combotahun.getSelectedItem().toString(),txt_Nopol_addItem.getText(),txt_Harga_addItem.getText(),combo_Status.getSelectedItem().toString()};
-                con.queryUpdate("tb_mobil", kolom, isi,"id_mobil='"+String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(),0))+"'");
+        try {
+            if (!txt_merkmobil_addItem.getText().isEmpty() && !txt_TypeMbll_addItem.getText().isEmpty() && !txt_Nopol_addItem.getText().isEmpty() && !txt_Harga_addItem.getText().isEmpty()) {
+                String kolom[] = {"merek", "tipe", "tahun", "nopol", "harga", "status"};
+                String isi[] = {txt_merkmobil_addItem.getText(), txt_TypeMbll_addItem.getText(), combotahun.getSelectedItem().toString(), txt_Nopol_addItem.getText(), txt_Harga_addItem.getText(), combo_Status.getSelectedItem().toString()};
+                con.queryUpdate("tb_mobil", kolom, isi, "id_mobil='" + String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(), 0)) + "'");
                 JOptionPane.showMessageDialog(this, "Data Berhasil Diedit");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Data isian ada yang kosong");
             }
         } catch (Exception e) {
@@ -367,11 +365,11 @@ public class Form_mobil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_create_addItemActionPerformed
 
     private void btn_Search_AddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Search_AddItemActionPerformed
-      if(txt_search_AddItem.getText().isEmpty()){
+        if (txt_search_AddItem.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Isikan data pencarian");
-        }else{
+        } else {
             try {
-                rs=con.querySelectAll("tb_mobil", "id_mobil LIKE '%"+txt_search_AddItem.getText()+"%' OR merek LIKE '%"+txt_search_AddItem.getText()+"%' OR tipe LIKE '%"+txt_search_AddItem.getText()+"%' OR nopol LIKE '%"+txt_search_AddItem.getText()+"%' OR harga LIKE '%"+txt_search_AddItem.getText()+"%' OR tahun LIKE '%"+txt_search_AddItem.getText()+"%'" );
+                rs = con.querySelectAll("tb_mobil", "id_mobil LIKE '%" + txt_search_AddItem.getText() + "%' OR merek LIKE '%" + txt_search_AddItem.getText() + "%' OR tipe LIKE '%" + txt_search_AddItem.getText() + "%' OR nopol LIKE '%" + txt_search_AddItem.getText() + "%' OR harga LIKE '%" + txt_search_AddItem.getText() + "%' OR tahun LIKE '%" + txt_search_AddItem.getText() + "%'");
                 tablemobil.setModel(new Database.ResultSetTable(rs));
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Pencarian Error");
@@ -381,16 +379,16 @@ public class Form_mobil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_Search_AddItemActionPerformed
 
     private void btn_Delete__addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Delete__addItemActionPerformed
-      try {
-            String id=String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(),0));
-                if (JOptionPane.showConfirmDialog(this, "Yakin menghapus data", "Peringatan", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-            con.queryDelete("tb_mobil","id_mobil="+id);
+        try {
+            String id = String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(), 0));
+            if (JOptionPane.showConfirmDialog(this, "Yakin menghapus data", "Peringatan", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                con.queryDelete("tb_mobil", "id_mobil=" + id);
 
-            }else{
+            } else {
                 return;
             }
         } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Pilih id terlebih dahulu");
+            JOptionPane.showMessageDialog(this, "Pilih id terlebih dahulu");
         }
         loadTabel();
         clear();
@@ -401,11 +399,11 @@ public class Form_mobil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_Refresh__addItemActionPerformed
 
     private void tablemobilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablemobilMouseClicked
-        txt_merkmobil_addItem.setText(String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(),1)));
-        txt_TypeMbll_addItem.setText(String.valueOf( tablemobil.getValueAt(tablemobil.getSelectedRow(),2)));
-        combotahun.setSelectedItem(String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(),3)));
-        txt_Nopol_addItem.setText(String.valueOf( tablemobil.getValueAt(tablemobil.getSelectedRow(),4)));
-        txt_Harga_addItem.setText(String.valueOf( tablemobil.getValueAt(tablemobil.getSelectedRow(),5)));
+        txt_merkmobil_addItem.setText(String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(), 1)));
+        txt_TypeMbll_addItem.setText(String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(), 2)));
+        combotahun.setSelectedItem(String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(), 3)));
+        txt_Nopol_addItem.setText(String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(), 4)));
+        txt_Harga_addItem.setText(String.valueOf(tablemobil.getValueAt(tablemobil.getSelectedRow(), 5)));
     }//GEN-LAST:event_tablemobilMouseClicked
 
     /**
@@ -475,7 +473,7 @@ public class Form_mobil extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private usu.widget.glass.PanelGlass panelGlass1;
     private usu.widget.glass.PanelGlass panelGlass6;
-    private javax.swing.JTable tablemobil;
+    public javax.swing.JTable tablemobil;
     private javax.swing.JTextField txt_Harga_addItem;
     private javax.swing.JTextField txt_Nopol_addItem;
     private javax.swing.JTextField txt_TypeMbll_addItem;
@@ -483,47 +481,45 @@ public class Form_mobil extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txt_search_AddItem;
     // End of variables declaration//GEN-END:variables
 
-
-
-  
-
     private void loadTabel() {
-        String namaKolom[] = {"id_mobil","merek","tipe","tahun","nopol","harga","status"};
-        rs=con.querySelect(namaKolom,"tb_mobil");
-        tablemobil.setModel(new ResultSetTable(rs));
+        try {
+            String namaKolom[] = {"id_mobil", "merek", "tipe", "tahun", "nopol", "harga", "status"};
+            rs = con.querySelect(namaKolom, "tb_mobil");
+
+            tablemobil.setModel(new ResultSetTable(rs));
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_mobil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void create() {
-      
         try {
- 
-            if( !txt_merkmobil_addItem.getText().isEmpty() && !txt_TypeMbll_addItem.getText().isEmpty() && !txt_Nopol_addItem.getText().isEmpty() && !txt_Harga_addItem.getText().isEmpty()){
-                String kolom[] = {"merek","tipe","tahun","nopol","harga","status"};
-                String isi[] = { txt_merkmobil_addItem.getText(),txt_TypeMbll_addItem.getText(),combotahun.getSelectedItem().toString(),txt_Nopol_addItem.getText(),txt_Harga_addItem.getText(),combo_Status.getSelectedItem().toString()};
-                
-                System.out.println( con.queryInsert("tb_mobil",kolom,isi));
-               
+            if (!txt_merkmobil_addItem.getText().isEmpty() && !txt_TypeMbll_addItem.getText().isEmpty() && !txt_Nopol_addItem.getText().isEmpty() && !txt_Harga_addItem.getText().isEmpty()) {
+                String kolom[] = {"merek", "tipe", "tahun", "nopol", "harga", "status"};
+                String isi[] = {txt_merkmobil_addItem.getText(), txt_TypeMbll_addItem.getText(), combotahun.getSelectedItem().toString(), txt_Nopol_addItem.getText(), txt_Harga_addItem.getText(), combo_Status.getSelectedItem().toString()};
+
+                System.out.println(con.queryInsert("tb_mobil", kolom, isi));
+
                 JOptionPane.showMessageDialog(this, "Data Berhasil Disimpan");
-            }else{
+                loadTabel();
+            } else {
                 JOptionPane.showMessageDialog(this, "Data isian ada yang kosong");
-            } 
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error input data");
-             System.out.println("salah");
+            System.out.println("salah");
         }
-        loadTabel();
         clear();
     }
 
     private void clear() {
-        
+
         txt_merkmobil_addItem.setText("");
         txt_TypeMbll_addItem.setText("");
         combotahun.setSelectedItem("2012");
         txt_Nopol_addItem.setText("");
         txt_Harga_addItem.setText("");
-        
-       
+
     }
-   
+
 }

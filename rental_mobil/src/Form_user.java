@@ -1,31 +1,33 @@
+
 import Database.KoneksiDatabase;
 import Database.ResultSetTable;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
-
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Sidiq
  */
 public class Form_user extends javax.swing.JInternalFrame {
-    
+
     ResultSet rs;
     KoneksiDatabase con;
+
     /**
      * Creates new form Form_user
      */
     public Form_user() {
-        
-        con =new KoneksiDatabase(new Database.Parameter().HOST_DB,new Database.Parameter().USERNAME_DB,new Database.Parameter().PASSWORD_DB);
+
+        con = new KoneksiDatabase(new Database.Parameter().HOST_DB, new Database.Parameter().USERNAME_DB, new Database.Parameter().PASSWORD_DB);
         initComponents();
-        loadTabel(); 
+        loadTabel();
     }
 
     /**
@@ -248,14 +250,14 @@ public class Form_user extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_Edit_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Edit_userActionPerformed
-     try {
-           if( !txt_nama_user.getText().isEmpty() && !txt_username_user.getText().isEmpty() && !txt_password_user.getText().isEmpty()){
-                String kolom[] = {"nama","username","password","type"};
-                String isi[] = { txt_nama_user.getText(),txt_username_user.getText(),txt_password_user.getText(),cb_type.getSelectedItem().toString()};
-                
-                con.queryUpdate("user", kolom, isi,"id_user='"+String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(),0))+"'");
+        try {
+            if (!txt_nama_user.getText().isEmpty() && !txt_username_user.getText().isEmpty() && !txt_password_user.getText().isEmpty()) {
+                String kolom[] = {"nama", "username", "password", "type"};
+                String isi[] = {txt_nama_user.getText(), txt_username_user.getText(), txt_password_user.getText(), cb_type.getSelectedItem().toString()};
+
+                con.queryUpdate("user", kolom, isi, "id_user='" + String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(), 0)) + "'");
                 JOptionPane.showMessageDialog(this, "Data Berhasil Diedit");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Data isian ada yang kosong");
             }
         } catch (Exception e) {
@@ -266,43 +268,43 @@ public class Form_user extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_Edit_userActionPerformed
 
     private void btn_create_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_create_userActionPerformed
-      create();
+        create();
     }//GEN-LAST:event_btn_create_userActionPerformed
 
     private void tabel_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_userMouseClicked
-        txt_nama_user.setText(String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(),1)));
-        txt_username_user.setText(String.valueOf( tabel_user.getValueAt(tabel_user.getSelectedRow(),2)));
-        txt_password_user.setText(String.valueOf( tabel_user.getValueAt(tabel_user.getSelectedRow(),3)));
-       cb_type.setSelectedItem(String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(),4)));
+        txt_nama_user.setText(String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(), 1)));
+        txt_username_user.setText(String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(), 2)));
+        txt_password_user.setText(String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(), 3)));
+        cb_type.setSelectedItem(String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(), 4)));
     }//GEN-LAST:event_tabel_userMouseClicked
 
     private void btn_Delete_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Delete_userActionPerformed
         try {
-            String id=String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(),0));
-                if (JOptionPane.showConfirmDialog(this, "Yakin menghapus data", "Peringatan", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-            con.queryDelete("user","id_user="+id);
+            String id = String.valueOf(tabel_user.getValueAt(tabel_user.getSelectedRow(), 0));
+            if (JOptionPane.showConfirmDialog(this, "Yakin menghapus data", "Peringatan", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                con.queryDelete("user", "id_user=" + id);
 
-            }else{
+            } else {
                 return;
             }
         } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Pilih id terlebih dahulu");
+            JOptionPane.showMessageDialog(this, "Pilih id terlebih dahulu");
         }
         loadTabel();
         clear();
     }//GEN-LAST:event_btn_Delete_userActionPerformed
 
     private void btn_Refresh_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Refresh_userActionPerformed
-         loadTabel();
+        loadTabel();
     }//GEN-LAST:event_btn_Refresh_userActionPerformed
 
     private void btn_search_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_search_userActionPerformed
-        if(txt_search_user.getText().isEmpty()){
+        if (txt_search_user.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Isikan data pencarian");
-        }else{
+        } else {
             try {
-                 String kolom[] = {"nama","username","type"};
-                rs=con.querySelect(kolom ,"user", "nama LIKE '%"+txt_search_user.getText()+"%' OR type LIKE '%"+txt_search_user.getText()+"%'");
+                String kolom[] = {"nama", "username", "type"};
+                rs = con.querySelect(kolom, "user", "nama LIKE '%" + txt_search_user.getText() + "%' OR type LIKE '%" + txt_search_user.getText() + "%'");
                 tabel_user.setModel(new Database.ResultSetTable(rs));
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Pencarian Error");
@@ -381,28 +383,32 @@ public class Form_user extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void loadTabel() {
-       String namaKolom[] = {"id_user","nama","username","type"};
-        rs=con.querySelect(namaKolom,"user");
-        tabel_user.setModel(new ResultSetTable(rs));
-       clear();
+        try {
+            String namaKolom[] = {"id_user", "nama", "username", "type"};
+            rs = con.querySelect(namaKolom, "user");
+            tabel_user.setModel(new ResultSetTable(rs));
+            clear();
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_user.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void create() {
         try {
- 
-            if( !txt_nama_user.getText().isEmpty() && !txt_username_user.getText().isEmpty() && !txt_password_user.getText().isEmpty()){
-                String kolom[] = {"nama","username","password","type"};
-                String isi[] = { txt_nama_user.getText(),txt_username_user.getText(),txt_password_user.getText(),cb_type.getSelectedItem().toString()};
-                
-                System.out.println( con.queryInsert("user",kolom,isi));
-               
+
+            if (!txt_nama_user.getText().isEmpty() && !txt_username_user.getText().isEmpty() && !txt_password_user.getText().isEmpty()) {
+                String kolom[] = {"nama", "username", "password", "type"};
+                String isi[] = {txt_nama_user.getText(), txt_username_user.getText(), txt_password_user.getText(), cb_type.getSelectedItem().toString()};
+
+                System.out.println(con.queryInsert("user", kolom, isi));
+
                 JOptionPane.showMessageDialog(this, "User Berhasil ditambahkan");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Data User Masih ada yang Kosong");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error input data");
-             System.out.println("salah");
+            System.out.println("salah");
         }
         loadTabel();
         clear();
@@ -413,6 +419,6 @@ public class Form_user extends javax.swing.JInternalFrame {
         txt_username_user.setText("");
         cb_type.setSelectedItem("Admin");
         txt_password_user.setText("");
-       
+
     }
 }

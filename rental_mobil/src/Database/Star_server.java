@@ -9,10 +9,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Bolehjadi
- */
 public class Star_server {
     static ServerSocket server;
     static Socket client;

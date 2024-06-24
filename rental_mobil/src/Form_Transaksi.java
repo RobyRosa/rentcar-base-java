@@ -43,7 +43,6 @@ public class Form_Transaksi extends javax.swing.JInternalFrame {
         loadMobil();
         loadTabel();
 
-
     }
 
     Form_Transaksi(String nama, String alamat, String tlp, String email) {
@@ -570,7 +569,6 @@ public class Form_Transaksi extends javax.swing.JInternalFrame {
         }
 
 
-
     }//GEN-LAST:event_boxnopolActionPerformed
 
     private void btn_Refresh__addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Refresh__addItemActionPerformed
@@ -711,17 +709,19 @@ public class Form_Transaksi extends javax.swing.JInternalFrame {
             String a = Integer.toString(Total);
             txt_total.setText(a);
 
-
-
         } catch (Exception a) {
             JOptionPane.showMessageDialog(this, "Masukan Tanggal Peminjaman dan Tanggal Pengembalian");
         }
     }
 
     private void loadTabel() {
-        String namaKolom[] = {"id_transaksi", "peminjam", "nopol", "tgl_pinjaman", "tgl_kembali", "harga", "lama", "total"}; //,
-        rs = con.querySelect(namaKolom, "tb_transaksi");
-        table_transaksi.setModel(new ResultSetTable(rs)); //,"tgl_pinjam","tgl_kembali" ,jDateChooser1.getDateFormatString(),jDateChooser2.getDateFormatString()
+        try {
+            String namaKolom[] = {"id_transaksi", "peminjam", "nopol", "tgl_pinjaman", "tgl_kembali", "harga", "lama", "total"}; //,
+            rs = con.querySelect(namaKolom, "tb_transaksi");
+            table_transaksi.setModel(new ResultSetTable(rs)); //,"tgl_pinjam","tgl_kembali" ,jDateChooser1.getDateFormatString(),jDateChooser2.getDateFormatString()
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_Transaksi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void create() {
@@ -744,7 +744,6 @@ public class Form_Transaksi extends javax.swing.JInternalFrame {
                     cekstatus();
                     add_peminjam();
                 }
-
 
             } else {
                 JOptionPane.showMessageDialog(this, "Data isian ada yang kosong");
@@ -776,8 +775,6 @@ public class Form_Transaksi extends javax.swing.JInternalFrame {
         String isi[] = {update_status};
         con.queryUpdate("tb_mobil", kolom, isi, "nopol='" + boxnopol.getSelectedItem().toString() + "'");
 
-
-
     }
 
     public boolean jikakeluar() throws SQLException {
@@ -803,6 +800,5 @@ public class Form_Transaksi extends javax.swing.JInternalFrame {
         System.out.println(con.queryInsert("tb_peminjam", kolom, isi));
         JOptionPane.showMessageDialog(this, "Data Peminjam Berhasil Disimpan");
     }
-    
 
 }

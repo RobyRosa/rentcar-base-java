@@ -4,10 +4,6 @@
  */
 package Database;
 
-/**
- *
- * @author Sidiq
- */
 public class Parameter {
     public static String IPHOST="127.0.0.1";
     public static String HOST_DB="jdbc:mysql://"+IPHOST+":3306/rental_mobil";

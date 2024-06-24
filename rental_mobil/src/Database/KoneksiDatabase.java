@@ -4,14 +4,6 @@
  */
 package Database;
 
-/**
- *
- * @author sidiq
- */
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 import java.net.Socket;
 import java.sql.*;
 
@@ -28,26 +20,25 @@ public class KoneksiDatabase {
     String Host;
 
     public KoneksiDatabase(String url, String username, String password) {
-       
-            this.url = url;
-            this.username = username;
-            this.password = password;
-            this.Host=Host;
-            this.Port=Port;
-       
+
+        this.url = url;
+        this.username = username;
+        this.password = password;
+        this.Host = Host;
+        this.Port = Port;
+
     }
 
-   
     public Connection koneksiDatabase() {
-       
-            try {
 
-                Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection(url, username, password);
+        try {
 
-            } catch (Exception e) {
-                System.out.println(e.toString());
-            }
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection(url, username, password);
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
         return connection;
     }
 
@@ -63,15 +54,14 @@ public class KoneksiDatabase {
     public ResultSet eksekusiQuery(String sql) {
         koneksiDatabase();
         ResultSet resultSet = null;
-       
 
-            try {
-                statement = connection.createStatement();
-                resultSet = statement.executeQuery(sql);
-                System.out.println(sql);
-            } catch (SQLException ex) {
-            }
-       
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+            System.out.println(sql);
+        } catch (SQLException ex) {
+        }
+
         return resultSet;
 
     }
@@ -80,15 +70,15 @@ public class KoneksiDatabase {
 
         koneksiDatabase();
         String result = "";
-      
-            try {
-                statement = connection.createStatement();
-                statement.executeUpdate(sql);
-                 System.out.println(sql);
-            } catch (SQLException ex) {
-                result = ex.toString();
-            }
-       
+
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(sql);
+            System.out.println(sql);
+        } catch (SQLException ex) {
+            result = ex.toString();
+        }
+
         return result;
 
     }

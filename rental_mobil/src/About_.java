@@ -3,10 +3,6 @@
  * and open the template in the editor.
  */
 
-/**
- *
- * @author Sidiq
- */
 public class About_ extends javax.swing.JInternalFrame {
 
     /**

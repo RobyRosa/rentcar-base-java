@@ -1,84 +1,53 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Database;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.table.AbstractTableModel;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- *
- * @author Sidiq
- */
 public class ResultSetTable extends AbstractTableModel {
+    private final List<Object[]> data;
+    private final ResultSetMetaData metaData;
+    private final int columnCount;
 
-    private ResultSet rs;
-
-    public ResultSetTable(ResultSet rs) {
-        this.rs = rs;
-        //fireTableDataChanged();
-    }
-
-    public int getColumnCount() {
-        try {
-            if (rs == null) {
-                return 0;
-            } else {
-                return rs.getMetaData().getColumnCount();
+    public ResultSetTable(ResultSet resultSet) throws SQLException {
+        this.metaData = resultSet.getMetaData();
+        this.columnCount = metaData.getColumnCount();
+        this.data = new ArrayList<>();
+        
+        while (resultSet.next()) {
+            Object[] row = new Object[columnCount];
+            for (int i = 0; i < columnCount; i++) {
+                row[i] = resultSet.getObject(i + 1);
             }
-        } catch (SQLException e) {
-            System.out.println("resultset generating error while getting column count");
-            System.out.println(e.getMessage());
-            return 0;
-        }
-    }
-
-    public int getRowCount() {
-        try {
-            if (rs == null) {
-                return 0;
-            } else {
-                rs.last();
-                return rs.getRow();
-            }
-        } catch (SQLException e) {
-            System.out.println("resultset generating error while getting rows count");
-            System.out.println(e.getMessage());
-            return 0;
-        }
-    }
-
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        if (rowIndex < 0 || rowIndex > getRowCount()
-                || columnIndex < 0 || columnIndex > getColumnCount()) {
-            return null;
-        }
-        try {
-            if (rs == null) {
-                return null;
-            } else {
-                rs.absolute(rowIndex + 1);
-                return rs.getObject(columnIndex + 1);
-            }
-        } catch (SQLException e) {
-            System.out.println("resultset generating error while fetching rows");
-            System.out.println(e.getMessage());
-            return null;
+            data.add(row);
         }
     }
 
     @Override
-    public String getColumnName(int columnIndex) {
-        try {
-            return rs.getMetaData().getColumnName(columnIndex + 1);
-        } catch (SQLException e) {
-            System.out.println("resultset generating error while fetching column name");
-            System.out.println(e.getMessage());
-        }
-        return super.getColumnName(columnIndex);
+    public int getRowCount() {
+        return data.size();
     }
 
-}
+    @Override
+    public int getColumnCount() {
+        return columnCount;
+    }
 
+    @Override
+    public String getColumnName(int column) {
+        try {
+            return metaData.getColumnName(column + 1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        return data.get(rowIndex)[columnIndex];
+    }
+}
